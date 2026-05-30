@@ -26,10 +26,11 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 | 4     | **Passenger Module**        | ✅ Complete | `phase-4-passenger-module`  |
 | 5     | **Operator Module**         | ✅ Complete | `phase-5-operator-module`   |
 | 6     | **Admin Module**            | ✅ Complete | `phase-6-admin-module`      |
+| 7     | **Advanced Features**       | ✅ Complete | `phase-7-advanced-features` |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 6 completed and committed to Git.
+> **Latest Phase**: Phase 7 completed and committed to Git.
 
 ---
 
@@ -162,6 +163,20 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 **Powerful system-wide administration tools:**
 
+---
+
+## Advanced Features (Phase 7 - Complete)
+
+**Enhanced user experience features added:**
+
+- **Visual Seat Selection** — Interactive seat map in booking flow (with booked seat detection)
+- **Booking Confirmation Ticket** — Beautiful ticket-style confirmation page after successful booking
+- **Notifications System** — In-app notifications with bell icon in header (mark as read)
+- **Advanced Search Filters** — Filter by max price and bus type
+- **Pagination** — Added to admin user listings and other key tables
+
+---
+
 ### Features Delivered
 - **Admin Dashboard** — Full system KPIs, recent users, and recent bookings
 - **User Management** — Complete CRUD + status control (active/inactive/suspended)
@@ -233,15 +248,15 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 6)
+### Current Testing (Phase 7)
 
-1. **Login as Admin** (`admin@smartbus.com` / `Password123`)
-2. **Test Full Admin Capabilities**:
-   - Explore the rich **Admin Dashboard** with live system-wide KPIs
-   - Go to **Users** → Edit users, change roles, suspend or activate accounts
-   - Go to **Bookings** → Modify any booking status or cancel bookings system-wide
-   - Go to **Reports** → Analyze revenue by operator and most popular routes
-   - Try to delete a user who has no active bookings
+1. **Login as Passenger** and test new features:
+   - Go to **Search Buses** → Use price and bus type filters
+   - Book a trip → Enjoy the new **visual seat map** selection
+   - After booking, see the new **ticket-style confirmation page**
+   - Check the bell icon → View **Notifications**
+
+2. **Login as Admin** to see pagination in Users list.
 
 2. **Run the Project**
    ```

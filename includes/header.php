@@ -53,6 +53,13 @@ $role = $currentUser['role'] ?? null;
             <?php if ($currentUser): ?>
                 <!-- Logged in state -->
                 <li><a href="<?= get_role_dashboard($role) ?>">Dashboard</a></li>
+                <?php if ($role === 'passenger'): ?>
+                    <li>
+                        <a href="passenger/notifications.php" title="Notifications" style="position:relative;">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li><a href="logout.php" class="btn btn-outline">Logout</a></li>
             <?php else: ?>
                 <!-- Public state -->

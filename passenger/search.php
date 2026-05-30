@@ -18,6 +18,8 @@ $isDashboard = true;
 $origin = trim($_GET['origin'] ?? '');
 $destination = trim($_GET['destination'] ?? '');
 $travel_date = trim($_GET['date'] ?? date('Y-m-d', strtotime('+1 day')));
+$max_price = (float)($_GET['max_price'] ?? 0);
+$bus_type = trim($_GET['bus_type'] ?? '');
 
 $schedules = [];
 $search_performed = false;
@@ -55,15 +57,23 @@ if ($origin && $destination && $travel_date) {
               AND DATE(s.departure_time) = ?
               AND s.status = 'scheduled'
               AND s.available_seats > 0
-            ORDER BY s.departure_time ASC
         ";
 
+        $params = ["%$origin%", "%$destination%", $travel_date];
+
+        if ($max_price > 0) {
+            $sql .= " AND s.price_per_seat <= ?";
+            $params[] = $max_price;
+        }
+        if (!empty($bus_type)) {
+            $sql .= " AND b.bus_type = ?";
+            $params[] = $bus_type;
+        }
+
+        $sql .= " ORDER BY s.departure_time ASC";
+
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            "%$origin%",
-            "%$destination%",
-            $travel_date
-        ]);
+        $stmt->execute($params);
         $schedules = $stmt->fetchAll();
 
     } catch (Exception $e) {
@@ -87,7 +97,7 @@ include __DIR__ . '/../includes/sidebar.php';
         <!-- Search Form -->
         <div class="card" style="margin-bottom: 2rem;">
             <div class="card-body">
-                <form method="GET" action="search.php" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
+                <form method="GET" action="search.php" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) auto; gap: 1rem; align-items: end;">
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label">From (Origin)</label>
                         <input type="text" name="origin" class="form-control" placeholder="Chicago" required value="<?= htmlspecialchars($origin) ?>">
@@ -99,6 +109,20 @@ include __DIR__ . '/../includes/sidebar.php';
                     <div class="form-group" style="margin-bottom:0;">
                         <label class="form-label">Departure Date</label>
                         <input type="date" name="date" class="form-control" required value="<?= htmlspecialchars($travel_date) ?>">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Max Price ($)</label>
+                        <input type="number" name="max_price" class="form-control" placeholder="100" value="<?= $max_price ?: '' ?>">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Bus Type</label>
+                        <select name="bus_type" class="form-control">
+                            <option value="">Any</option>
+                            <option value="Standard" <?= $bus_type === 'Standard' ? 'selected' : '' ?>>Standard</option>
+                            <option value="Deluxe" <?= $bus_type === 'Deluxe' ? 'selected' : '' ?>>Deluxe</option>
+                            <option value="Sleeper" <?= $bus_type === 'Sleeper' ? 'selected' : '' ?>>Sleeper</option>
+                            <option value="Semi-Sleeper" <?= $bus_type === 'Semi-Sleeper' ? 'selected' : '' ?>>Semi-Sleeper</option>
+                        </select>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary btn-block" style="height: 46px;">

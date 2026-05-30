@@ -6,6 +6,7 @@
  */
 
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/pagination.php';
 
 start_secure_session();
 require_role(ROLE_ADMIN);
@@ -19,12 +20,21 @@ $error = get_flash('error');
 try {
     $pdo = getDBConnection();
 
-    $users = $pdo->query("
+    $per_page = 15;
+    $page = max(1, (int)($_GET['page'] ?? 1));
+    $offset = ($page - 1) * $per_page;
+
+    $total = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+    $total_pages = ceil($total / $per_page);
+
+    $stmt = $pdo->prepare("
         SELECT id, full_name, email, phone, role, status, created_at 
         FROM users 
         ORDER BY created_at DESC 
-        LIMIT 100
-    ")->fetchAll();
+        LIMIT ? OFFSET ?
+    ");
+    $stmt->execute([$per_page, $offset]);
+    $users = $stmt->fetchAll();
 
 } catch (Exception $e) {
     $users = [];
@@ -103,6 +113,7 @@ include __DIR__ . '/../includes/sidebar.php';
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            <?php render_pagination($page, $total_pages, 'users.php'); ?>
         </div>
 
     </div>

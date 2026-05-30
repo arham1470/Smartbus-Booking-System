@@ -41,7 +41,8 @@ function handle_create_booking() {
     }
 
     $schedule_id = (int)($_POST['schedule_id'] ?? 0);
-    $num_seats = (int)($_POST['num_seats'] ?? 1);
+    $selected_seats = isset($_POST['selected_seats']) ? explode(',', $_POST['selected_seats']) : [];
+    $num_seats = count($selected_seats);
     $passengers = $_POST['passengers'] ?? [];
 
     if (!$schedule_id || $num_seats < 1 || empty($passengers)) {
@@ -93,15 +94,15 @@ function handle_create_booking() {
         ]);
         $booking_id = $pdo->lastInsertId();
 
-        // Insert seat assignments
+        // Insert seat assignments using selected seats
         $stmtSeat = $pdo->prepare("
             INSERT INTO booking_seats (booking_id, seat_number, passenger_name) 
             VALUES (?, ?, ?)
         ");
 
-        foreach ($passengers as $index => $name) {
-            $seat_number = 'S' . str_pad($index + 1, 2, '0', STR_PAD_LEFT);
-            $stmtSeat->execute([$booking_id, $seat_number, trim($name) ?: 'Passenger']);
+        foreach ($selected_seats as $index => $seat_number) {
+            $name = $passengers[$index] ?? 'Passenger';
+            $stmtSeat->execute([$booking_id, trim($seat_number), trim($name) ?: 'Passenger']);
         }
 
         // Update available seats
@@ -132,8 +133,8 @@ function handle_create_booking() {
 
         $pdo->commit();
 
-        set_flash('success', "Booking successful! Your reference is <strong>$booking_ref</strong>.");
-        header("Location: ../passenger/bookings.php");
+        // Redirect to nice confirmation page (Phase 7)
+        header("Location: ../passenger/booking_confirmation.php?ref=" . urlencode($booking_ref));
         exit;
 
     } catch (Exception $e) {
