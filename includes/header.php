@@ -80,30 +80,38 @@ $role = $currentUser['role'] ?? null;
     </div>
 </nav>
 <?php else: ?>
-<!-- DASHBOARD TOP BAR (light version for later phases) -->
-<header class="navbar" style="background: #fff; border-bottom: 1px solid #E5E7EB;">
-    <div class="container" style="max-width: 100%; padding: 0 1.5rem; height: 64px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; height: 100%;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <!-- Sidebar toggle button (mobile) -->
-                <button class="sidebar-toggle btn btn-outline" style="padding: 6px 10px; display: none;" aria-label="Toggle sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <a href="index.php" style="font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-bus"></i>
-                    <span>SmartBus</span>
+<!-- DASHBOARD TOP BAR - Modern UI -->
+<header class="dashboard-header">
+    <div class="dashboard-header-inner">
+        <div class="dashboard-header-left">
+            <!-- Mobile Sidebar Toggle -->
+            <button class="sidebar-toggle" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <a href="<?= BASE_URL ?>/" class="dashboard-logo">
+                <i class="fas fa-bus"></i>
+                <span>SmartBus</span>
+            </a>
+        </div>
+
+        <div class="dashboard-header-right">
+            <?php if ($currentUser): ?>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name"><?= htmlspecialchars($currentUser['name'] ?? $currentUser['full_name'] ?? 'User') ?></span>
+                        <span class="user-role"><?= ucfirst($role ?? 'User') ?></span>
+                    </div>
+                </div>
+
+                <a href="<?= BASE_URL ?>/logout.php" class="btn btn-sm btn-danger dashboard-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </a>
-            </div>
-            
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <?php if ($currentUser): ?>
-                    <span style="color: var(--text-light); font-size: 0.9rem;">
-                        Welcome, <strong><?= htmlspecialchars($currentUser['name'] ?? $currentUser['full_name'] ?? 'User') ?></strong>
-                    </span>
-                    <a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
-                <?php endif; ?>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </header>

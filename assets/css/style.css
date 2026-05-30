@@ -456,6 +456,112 @@ textarea.form-control {
 }
 
 /* ============================================
+   MODERN DASHBOARD HEADER
+   ============================================ */
+.dashboard-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-header-inner {
+    max-width: 100%;
+    padding: 0 1.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dashboard-logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.dashboard-logo:hover {
+    color: var(--primary);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    background: #e0f2fe;
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.user-role {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-transform: capitalize;
+}
+
+.dashboard-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* Sidebar toggle visibility */
+.dashboard-header .sidebar-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .dashboard-header .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 10px;
+    }
+}
+
+/* ============================================
    DASHBOARD SIDEBAR (Prepared for later phases)
    ============================================ */
 .sidebar {
@@ -685,6 +791,15 @@ textarea.form-control {
 
     .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Dashboard header mobile improvements */
+    .dashboard-header-right .user-details {
+        display: none;
+    }
+    
+    .dashboard-logout span {
+        display: none;
     }
 }
 
