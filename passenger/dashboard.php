@@ -168,5 +168,7 @@ include __DIR__ . '/../includes/sidebar.php';
     </div>
 </div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<script src="<?= BASE_URL ?>/assets/js/script.js"></script>
+</body>
+</html>
 
