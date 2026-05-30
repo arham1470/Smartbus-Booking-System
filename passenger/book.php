@@ -221,4 +221,6 @@ document.getElementById('booking-form').addEventListener('submit', function(e) {
 });
 </script>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<script src="<?= BASE_URL ?>/assets/js/script.js"></script>
+</body>
+</html>

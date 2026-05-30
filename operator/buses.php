@@ -226,4 +226,6 @@ function editBus(bus) {
 }
 </script>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+<script src="<?= BASE_URL ?>/assets/js/script.js"></script>
+</body>
+</html>
