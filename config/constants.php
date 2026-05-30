@@ -38,3 +38,9 @@ function get_role_dashboard($role) {
             return 'passenger/dashboard.php';
     }
 }
+
+// ============================================
+// BASE URL (Important for subfolder deployments like XAMPP)
+// Change this if you move the project to a different folder
+// ============================================
+define('BASE_URL', '/SmartBus-Booking-System');

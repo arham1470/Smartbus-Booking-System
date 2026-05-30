@@ -50,7 +50,7 @@ function start_secure_session() {
         session_destroy();
         session_start();
         $_SESSION['error'] = 'Your session has expired due to inactivity. Please log in again.';
-        header('Location: /SmartBus-Booking-System/login.php?expired=1');
+        header('Location: ' . BASE_URL . '/login.php?expired=1');
         exit;
     }
     $_SESSION['last_activity'] = time();
@@ -224,7 +224,7 @@ function require_login() {
         // Store intended destination for after login
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
         
-        header('Location: ' . (strpos($_SERVER['PHP_SELF'], 'admin/') !== false ? '../login.php' : 'login.php') . '?redirected=1');
+        header('Location: ' . BASE_URL . '/login.php?redirected=1');
         exit;
     }
 }
@@ -262,12 +262,8 @@ function redirect_to_dashboard() {
     $role = get_current_role();
     $dashboard = get_role_dashboard($role);
     
-    // Handle path differences if we're already inside a subfolder
-    $base = (strpos($_SERVER['PHP_SELF'], '/passenger/') !== false || 
-             strpos($_SERVER['PHP_SELF'], '/operator/') !== false || 
-             strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : '';
-    
-    header('Location: ' . $base . $dashboard);
+    // Always use absolute path from project root for reliability
+    header('Location: ' . BASE_URL . '/' . $dashboard);
     exit;
 }
 

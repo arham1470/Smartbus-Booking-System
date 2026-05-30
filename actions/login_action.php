@@ -11,14 +11,14 @@ start_secure_session();
 
 // Only allow POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../login.php');
+    header('Location: ' . BASE_URL . '/login.php');
     exit;
 }
 
 // CSRF check
 if (!isset($_POST['csrf_token']) || !verify_csrf_token($_POST['csrf_token'])) {
     $_SESSION['error'] = 'Security token invalid. Please try again.';
-    header('Location: ../login.php');
+    header('Location: ' . BASE_URL . '/login.php');
     exit;
 }
 
@@ -27,7 +27,7 @@ $password = $_POST['password'] ?? '';
 
 if (empty($email) || empty($password)) {
     $_SESSION['error'] = 'Please enter both email and password.';
-    header('Location: ../login.php');
+    header('Location: ' . BASE_URL . '/login.php');
     exit;
 }
 
@@ -50,6 +50,6 @@ if ($result['success']) {
     
 } else {
     $_SESSION['error'] = $result['error'];
-    header('Location: ../login.php');
+    header('Location: ' . BASE_URL . '/login.php');
     exit;
 }

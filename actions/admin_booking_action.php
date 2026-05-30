@@ -11,7 +11,7 @@ start_secure_session();
 require_role(ROLE_ADMIN);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../admin/bookings.php');
+    header('Location: ' . BASE_URL . '/admin/bookings.php');
     exit;
 }
 
@@ -22,14 +22,14 @@ if ($action === 'update_booking_status') {
 } elseif ($action === 'cancel_booking') {
     handle_admin_cancel_booking();
 } else {
-    header('Location: ../admin/bookings.php');
+    header('Location: ' . BASE_URL . '/admin/bookings.php');
     exit;
 }
 
 function handle_update_booking_status() {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         set_flash('error', 'Security check failed.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 
@@ -39,7 +39,7 @@ function handle_update_booking_status() {
 
     if (!$booking_id || !in_array($status, ['pending', 'confirmed', 'cancelled', 'completed'])) {
         set_flash('error', 'Invalid booking data.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 
@@ -54,12 +54,12 @@ function handle_update_booking_status() {
         $stmt->execute([$status, $payment_status, $booking_id]);
 
         set_flash('success', 'Booking status updated successfully.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
 
     } catch (Exception $e) {
         set_flash('error', 'Failed to update booking.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 }
@@ -67,7 +67,7 @@ function handle_update_booking_status() {
 function handle_admin_cancel_booking() {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         set_flash('error', 'Security check failed.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 
@@ -75,7 +75,7 @@ function handle_admin_cancel_booking() {
 
     if (!$booking_id) {
         set_flash('error', 'Invalid booking.');
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 
@@ -133,13 +133,13 @@ function handle_admin_cancel_booking() {
         $pdo->commit();
 
         set_flash('success', "Booking {$booking['booking_reference']} has been cancelled.");
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
 
     } catch (Exception $e) {
         if ($pdo->inTransaction()) $pdo->rollBack();
         set_flash('error', $e->getMessage());
-        header('Location: ../admin/bookings.php');
+        header('Location: ' . BASE_URL . '/admin/bookings.php');
         exit;
     }
 }

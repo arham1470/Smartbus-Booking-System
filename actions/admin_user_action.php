@@ -11,7 +11,7 @@ start_secure_session();
 require_role(ROLE_ADMIN);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../admin/users.php');
+    header('Location: ' . BASE_URL . '/admin/users.php');
     exit;
 }
 
@@ -24,14 +24,14 @@ if ($action === 'update_user') {
 } elseif ($action === 'delete_user') {
     handle_delete_user();
 } else {
-    header('Location: ../admin/users.php');
+    header('Location: ' . BASE_URL . '/admin/users.php');
     exit;
 }
 
 function handle_update_user() {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         set_flash('error', 'Security check failed.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -42,7 +42,7 @@ function handle_update_user() {
 
     if (!$user_id || empty($full_name)) {
         set_flash('error', 'Invalid user data.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -57,12 +57,12 @@ function handle_update_user() {
         $stmt->execute([$full_name, $phone, $role, $user_id]);
 
         set_flash('success', 'User updated successfully.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
 
     } catch (Exception $e) {
         set_flash('error', 'Failed to update user.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 }
@@ -70,7 +70,7 @@ function handle_update_user() {
 function handle_update_user_status() {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         set_flash('error', 'Security check failed.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -79,14 +79,14 @@ function handle_update_user_status() {
 
     if (!$user_id || !in_array($status, ['active', 'inactive', 'suspended'])) {
         set_flash('error', 'Invalid status.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
     // Prevent admin from deactivating themselves
     if ($user_id == $_SESSION['user_id'] && $status !== 'active') {
         set_flash('error', 'You cannot deactivate your own account.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -96,12 +96,12 @@ function handle_update_user_status() {
         $stmt->execute([$status, $user_id]);
 
         set_flash('success', 'User status updated successfully.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
 
     } catch (Exception $e) {
         set_flash('error', 'Failed to update status.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 }
@@ -109,7 +109,7 @@ function handle_update_user_status() {
 function handle_delete_user() {
     if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
         set_flash('error', 'Security check failed.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -117,13 +117,13 @@ function handle_delete_user() {
 
     if (!$user_id) {
         set_flash('error', 'Invalid user.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
     if ($user_id == $_SESSION['user_id']) {
         set_flash('error', 'You cannot delete your own account.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 
@@ -140,7 +140,7 @@ function handle_delete_user() {
 
         if ($active_bookings > 0) {
             set_flash('error', 'Cannot delete user with active bookings. Cancel bookings first.');
-            header('Location: ../admin/users.php');
+            header('Location: ' . BASE_URL . '/admin/users.php');
             exit;
         }
 
@@ -148,12 +148,12 @@ function handle_delete_user() {
         $stmt->execute([$user_id]);
 
         set_flash('success', 'User deleted successfully.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
 
     } catch (Exception $e) {
         set_flash('error', 'Failed to delete user.');
-        header('Location: ../admin/users.php');
+        header('Location: ' . BASE_URL . '/admin/users.php');
         exit;
     }
 }
