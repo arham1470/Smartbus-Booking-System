@@ -23,13 +23,13 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 | 1     | **Project Setup**           | ✅ Complete | `phase-1-project-setup`     |
 | 2     | **Database Design**         | ✅ Complete | `phase-2-database-design`   |
 | 3     | **Authentication System**   | ✅ Complete | `phase-3-authentication`    |
-| 4     | Passenger Module            | ⏳ Pending   | -                           |
+| 4     | **Passenger Module**        | ✅ Complete | `phase-4-passenger-module`  |
 | 5     | Operator Module             | ⏳ Pending   | -                           |
 | 6     | Admin Module                | ⏳ Pending   | -                           |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 3 completed and committed to Git.
+> **Latest Phase**: Phase 4 completed and committed to Git.
 
 ---
 
@@ -144,6 +144,28 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 **Fully functional login, registration, and role-based access control.**
 
+---
+
+## Passenger Module (Phase 4 - Complete)
+
+**Fully working passenger experience:**
+
+### Features Delivered
+- **Smart Search** — Search buses by origin, destination, and date
+- **Booking Flow** — Select schedule → Choose seats → Enter passenger names → Confirm booking
+- **My Bookings** — View all bookings with status, cancel upcoming trips
+- **Booking Details** — Full ticket-like view with seat assignments
+- **Profile Management** — Update name/phone + secure password change
+- **Dynamic Dashboard** — Real stats and upcoming trips from database
+- **Flash Messages** — Clean success/error notifications throughout
+
+### Key Files
+- `passenger/search.php`, `book.php`, `bookings.php`, `profile.php`
+- `actions/booking_action.php`, `profile_action.php`
+- Reusable flash messages in `includes/auth.php`
+
+---
+
 ### Security Features Implemented
 - Secure password hashing (`password_hash` + `password_verify`)
 - CSRF token protection on all auth forms
@@ -172,21 +194,19 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 3)
+### Current Testing (Phase 4)
 
-1. **Start Services**
-   - Open XAMPP Control Panel
-   - Start **Apache** and **MySQL**
-
-2. **Import Database** (if not done)
-   - Follow instructions in [database/ERD_AND_SETUP.md](database/ERD_AND_SETUP.md)
-
-3. **Test Authentication**
-   - Visit the site and register a new account
-   - Login with sample accounts (see Authentication section above)
-   - Verify you are redirected to the correct dashboard based on role
-   - Test logout
-   - Try accessing a dashboard directly without logging in (should redirect)
+1. **Start Services** + Import database (if needed)
+2. **Login as a Passenger** (e.g. james.wilson@email.com)
+3. **Test Full Flow**:
+   - Go to Dashboard
+   - Click "Search Buses"
+   - Search for "Chicago" → "New York" on a future date
+   - Click "Book Now" on any available schedule
+   - Complete the booking form
+   - View the booking in "My Bookings"
+   - Try cancelling a booking
+   - Update your profile and change password
 
 2. **Run the Project**
    ```

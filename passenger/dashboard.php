@@ -2,7 +2,7 @@
 /**
  * SmartBus Booking System
  * Passenger Dashboard
- * Phase 3 - Authentication Foundation
+ * Phase 4 - Fully Functional
  */
 
 require_once __DIR__ . '/../includes/auth.php';
@@ -14,68 +14,105 @@ $currentUser = get_current_user();
 $pageTitle = "Passenger Dashboard";
 $isDashboard = true;
 
+try {
+    $pdo = getDBConnection();
+
+    // Stats
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE user_id = ? AND status = 'confirmed'");
+    $stmt->execute([$currentUser['id']]);
+    $active_bookings = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM bookings WHERE user_id = ?");
+    $stmt->execute([$currentUser['id']]);
+    $total_trips = $stmt->fetchColumn();
+
+    // Upcoming bookings
+    $stmt = $pdo->prepare("
+        SELECT b.*, r.origin_city, r.destination_city, s.departure_time
+        FROM bookings b
+        JOIN schedules s ON b.schedule_id = s.id
+        JOIN routes r ON s.route_id = r.id
+        WHERE b.user_id = ? AND b.status = 'confirmed' AND s.departure_time > NOW()
+        ORDER BY s.departure_time ASC
+        LIMIT 3
+    ");
+    $stmt->execute([$currentUser['id']]);
+    $upcoming = $stmt->fetchAll();
+
+} catch (Exception $e) {
+    $active_bookings = 0;
+    $total_trips = 0;
+    $upcoming = [];
+}
+
+$success = get_flash('success');
+$error = get_flash('error');
+
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/sidebar.php';
 ?>
 
 <div class="main-content">
     <div class="container" style="max-width: 1100px;">
-        
+
+        <?php if ($success): ?><div class="alert alert-success"><?= $success ?></div><?php endif; ?>
+        <?php if ($error): ?><div class="alert alert-danger"><?= $error ?></div><?php endif; ?>
+
         <div style="margin-bottom: 2rem;">
             <h1 style="margin-bottom: 0.25rem;">Welcome back, <?= htmlspecialchars($currentUser['name']) ?>!</h1>
-            <p class="text-muted">Here's what's happening with your bookings today.</p>
+            <p class="text-muted">Here's an overview of your travel activity.</p>
         </div>
 
-        <!-- Stats Cards -->
+        <!-- Stats -->
         <div class="dashboard-grid">
             <div class="stat-card">
                 <h3><i class="fas fa-ticket-alt"></i> Active Bookings</h3>
-                <div class="value">2</div>
-                <small class="text-muted">Next trip in 5 days</small>
+                <div class="value"><?= $active_bookings ?></div>
             </div>
             <div class="stat-card">
                 <h3><i class="fas fa-history"></i> Total Trips</h3>
-                <div class="value">14</div>
-                <small class="text-muted">This year</small>
+                <div class="value"><?= $total_trips ?></div>
             </div>
             <div class="stat-card">
-                <h3><i class="fas fa-wallet"></i> Wallet Balance</h3>
-                <div class="value">$0</div>
-                <small class="text-muted">No pending refunds</small>
+                <h3><i class="fas fa-search"></i> Quick Action</h3>
+                <a href="search.php" class="btn btn-primary btn-sm" style="margin-top: 0.5rem;">Search Buses</a>
             </div>
         </div>
 
-        <div class="card" style="margin-bottom: 2rem;">
-            <div class="card-header">
+        <!-- Upcoming Trips -->
+        <div class="card">
+            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
                 <strong>Upcoming Trips</strong>
+                <a href="bookings.php" class="btn btn-sm btn-outline">View All</a>
             </div>
             <div class="card-body">
-                <p class="text-muted" style="margin-bottom: 1rem;">You have <strong>2 upcoming bookings</strong>.</p>
-                
-                <div style="display: grid; gap: 1rem;">
-                    <div style="border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
-                        <strong>Chicago → New York</strong><br>
-                        <small>Feb 20, 2026 • 08:00 AM • Seats: A12, A13</small><br>
-                        <span class="badge badge-success" style="margin-top: 0.5rem;">Confirmed</span>
+                <?php if (empty($upcoming)): ?>
+                    <p class="text-muted">You have no upcoming trips. <a href="search.php">Book your next journey</a>.</p>
+                <?php else: ?>
+                    <div style="display: grid; gap: 1rem;">
+                        <?php foreach ($upcoming as $trip): ?>
+                            <div style="border: 1px solid var(--border-light); border-radius: 8px; padding: 1rem; display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <strong><?= htmlspecialchars($trip['origin_city']) ?> → <?= htmlspecialchars($trip['destination_city']) ?></strong><br>
+                                    <small><?= date('M d, Y • h:i A', strtotime($trip['departure_time'])) ?></small>
+                                </div>
+                                <div>
+                                    <span class="badge badge-success">Confirmed</span>
+                                    <a href="view_booking.php?id=<?= $trip['id'] ?>" class="btn btn-sm btn-outline" style="margin-left:0.5rem;">Details</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                    <div style="border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
-                        <strong>New York → Boston</strong><br>
-                        <small>Mar 5, 2026 • 07:45 AM • Seat: B07</small><br>
-                        <span class="badge badge-success" style="margin-top: 0.5rem;">Confirmed</span>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary btn-sm">View All Bookings</a>
-                <a href="#" class="btn btn-outline btn-sm">Search New Trips</a>
+                <a href="search.php" class="btn btn-primary">Search for New Trips</a>
+                <a href="profile.php" class="btn btn-outline">Manage Profile</a>
             </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 3rem; color: var(--text-light); font-size: 0.9rem;">
-            <p>This is a <strong>Phase 3 placeholder dashboard</strong>. Full booking management will be built in Phase 4.</p>
         </div>
 
     </div>
 </div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+

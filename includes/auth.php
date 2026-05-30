@@ -257,3 +257,43 @@ function redirect_to_dashboard() {
     header('Location: ' . $base . $dashboard);
     exit;
 }
+
+// ============================================
+// FLASH MESSAGES (Success / Error notifications)
+// ============================================
+
+/**
+ * Set a flash message
+ */
+function set_flash($type, $message) {
+    $_SESSION['flash'][$type] = $message;
+}
+
+/**
+ * Get and clear flash messages
+ */
+function get_flash($type = null) {
+    if (!isset($_SESSION['flash'])) {
+        return null;
+    }
+    
+    if ($type) {
+        if (isset($_SESSION['flash'][$type])) {
+            $msg = $_SESSION['flash'][$type];
+            unset($_SESSION['flash'][$type]);
+            return $msg;
+        }
+        return null;
+    }
+    
+    $flashes = $_SESSION['flash'];
+    unset($_SESSION['flash']);
+    return $flashes;
+}
+
+/**
+ * Check if there are any flash messages
+ */
+function has_flash() {
+    return !empty($_SESSION['flash']);
+}

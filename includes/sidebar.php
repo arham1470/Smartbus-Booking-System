@@ -19,46 +19,32 @@
     </div>
     
     <ul class="sidebar-nav">
-        <!-- These links will be customized per role in later phases -->
         <li>
-            <a href="#" class="active">
+            <a href="dashboard.php" class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : '' ?>">
                 <i class="fas fa-tachometer-alt" style="width: 20px;"></i>
-                <span>Overview</span>
+                <span>Dashboard</span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class="fas fa-bus" style="width: 20px;"></i>
-                <span>Buses</span>
+            <a href="search.php" class="<?= basename($_SERVER['PHP_SELF']) === 'search.php' ? 'active' : '' ?>">
+                <i class="fas fa-search" style="width: 20px;"></i>
+                <span>Search Buses</span>
             </a>
         </li>
         <li>
-            <a href="#">
-                <i class="fas fa-route" style="width: 20px;"></i>
-                <span>Routes</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-calendar-alt" style="width: 20px;"></i>
-                <span>Schedules</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
+            <a href="bookings.php" class="<?= basename($_SERVER['PHP_SELF']) === 'bookings.php' ? 'active' : '' ?>">
                 <i class="fas fa-ticket-alt" style="width: 20px;"></i>
-                <span>Bookings</span>
+                <span>My Bookings</span>
             </a>
         </li>
-        
         <li style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 0.5rem;">
-            <a href="#">
+            <a href="profile.php" class="<?= basename($_SERVER['PHP_SELF']) === 'profile.php' ? 'active' : '' ?>">
                 <i class="fas fa-user-circle" style="width: 20px;"></i>
                 <span>My Profile</span>
             </a>
         </li>
         <li>
-            <a href="logout.php">
+            <a href="../logout.php">
                 <i class="fas fa-sign-out-alt" style="width: 20px;"></i>
                 <span>Logout</span>
             </a>
