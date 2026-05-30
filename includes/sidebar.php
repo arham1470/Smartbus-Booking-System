@@ -19,30 +19,50 @@
     </div>
     
     <ul class="sidebar-nav">
-        <li>
-            <a href="dashboard.php" class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : '' ?>">
-                <i class="fas fa-tachometer-alt" style="width: 20px;"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li>
-            <a href="search.php" class="<?= basename($_SERVER['PHP_SELF']) === 'search.php' ? 'active' : '' ?>">
-                <i class="fas fa-search" style="width: 20px;"></i>
-                <span>Search Buses</span>
-            </a>
-        </li>
-        <li>
-            <a href="bookings.php" class="<?= basename($_SERVER['PHP_SELF']) === 'bookings.php' ? 'active' : '' ?>">
-                <i class="fas fa-ticket-alt" style="width: 20px;"></i>
-                <span>My Bookings</span>
-            </a>
-        </li>
-        <li style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 0.5rem;">
-            <a href="profile.php" class="<?= basename($_SERVER['PHP_SELF']) === 'profile.php' ? 'active' : '' ?>">
-                <i class="fas fa-user-circle" style="width: 20px;"></i>
-                <span>My Profile</span>
-            </a>
-        </li>
+        <?php if (get_current_role() === ROLE_OPERATOR): ?>
+            <li>
+                <a href="dashboard.php" class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : '' ?>">
+                    <i class="fas fa-tachometer-alt" style="width: 20px;"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="buses.php" class="<?= basename($_SERVER['PHP_SELF']) === 'buses.php' ? 'active' : '' ?>">
+                    <i class="fas fa-bus" style="width: 20px;"></i>
+                    <span>My Buses</span>
+                </a>
+            </li>
+            <li>
+                <a href="schedules.php" class="<?= basename($_SERVER['PHP_SELF']) === 'schedules.php' ? 'active' : '' ?>">
+                    <i class="fas fa-calendar-alt" style="width: 20px;"></i>
+                    <span>Schedules</span>
+                </a>
+            </li>
+            <li>
+                <a href="reservations.php" class="<?= basename($_SERVER['PHP_SELF']) === 'reservations.php' ? 'active' : '' ?>">
+                    <i class="fas fa-ticket-alt" style="width: 20px;"></i>
+                    <span>Reservations</span>
+                </a>
+            </li>
+            <li>
+                <a href="routes.php" class="<?= basename($_SERVER['PHP_SELF']) === 'routes.php' ? 'active' : '' ?>">
+                    <i class="fas fa-route" style="width: 20px;"></i>
+                    <span>Routes</span>
+                </a>
+            </li>
+            <li style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 0.5rem;">
+                <a href="../passenger/profile.php">
+                    <i class="fas fa-user-circle" style="width: 20px;"></i>
+                    <span>My Profile</span>
+                </a>
+            </li>
+        <?php else: ?>
+            <!-- Passenger links (fallback) -->
+            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="search.php">Search Buses</a></li>
+            <li><a href="bookings.php">My Bookings</a></li>
+        <?php endif; ?>
+
         <li>
             <a href="../logout.php">
                 <i class="fas fa-sign-out-alt" style="width: 20px;"></i>

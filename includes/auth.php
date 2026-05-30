@@ -297,3 +297,40 @@ function get_flash($type = null) {
 function has_flash() {
     return !empty($_SESSION['flash']);
 }
+
+// ============================================
+// OPERATOR-SPECIFIC HELPERS
+// ============================================
+
+/**
+ * Get the operator record for the currently logged-in operator user.
+ * Returns null if not an operator or no operator profile exists.
+ */
+function get_current_operator() {
+    if (get_current_role() !== ROLE_OPERATOR) {
+        return null;
+    }
+
+    static $operator = null;
+    if ($operator !== null) {
+        return $operator;
+    }
+
+    try {
+        $pdo = getDBConnection();
+        $stmt = $pdo->prepare("
+            SELECT o.*, u.full_name 
+            FROM operators o
+            JOIN users u ON o.user_id = u.id
+            WHERE o.user_id = ? AND o.status = 'active'
+            LIMIT 1
+        ");
+        $stmt->execute([$_SESSION['user_id']]);
+        $operator = $stmt->fetch();
+
+        return $operator;
+    } catch (Exception $e) {
+        error_log("get_current_operator error: " . $e->getMessage());
+        return null;
+    }
+}

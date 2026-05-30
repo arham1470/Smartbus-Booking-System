@@ -24,12 +24,12 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 | 2     | **Database Design**         | ✅ Complete | `phase-2-database-design`   |
 | 3     | **Authentication System**   | ✅ Complete | `phase-3-authentication`    |
 | 4     | **Passenger Module**        | ✅ Complete | `phase-4-passenger-module`  |
-| 5     | Operator Module             | ⏳ Pending   | -                           |
+| 5     | **Operator Module**         | ✅ Complete | `phase-5-operator-module`   |
 | 6     | Admin Module                | ⏳ Pending   | -                           |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 4 completed and committed to Git.
+> **Latest Phase**: Phase 5 completed and committed to Git.
 
 ---
 
@@ -150,6 +150,26 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 **Fully working passenger experience:**
 
+---
+
+## Operator Module (Phase 5 - Complete)
+
+**Complete fleet and schedule management for bus operators:**
+
+### Features Delivered
+- **Operator Dashboard** — Real KPIs (buses, upcoming trips, daily bookings, monthly revenue)
+- **Bus Management (CRUD)** — Add, edit, delete buses with validation
+- **Schedule Management (CRUD)** — Create, edit, and cancel departures
+- **Reservations View** — See all passenger bookings across your fleet
+- **Routes** — View and add new routes
+
+### Key Files
+- `operator/buses.php`, `schedules.php`, `reservations.php`, `routes.php`
+- `actions/bus_action.php`, `schedule_action.php`
+- Enhanced `get_current_operator()` helper in `includes/auth.php`
+
+---
+
 ### Features Delivered
 - **Smart Search** — Search buses by origin, destination, and date
 - **Booking Flow** — Select schedule → Choose seats → Enter passenger names → Confirm booking
@@ -194,19 +214,15 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 4)
+### Current Testing (Phase 5)
 
-1. **Start Services** + Import database (if needed)
-2. **Login as a Passenger** (e.g. james.wilson@email.com)
-3. **Test Full Flow**:
-   - Go to Dashboard
-   - Click "Search Buses"
-   - Search for "Chicago" → "New York" on a future date
-   - Click "Book Now" on any available schedule
-   - Complete the booking form
-   - View the booking in "My Bookings"
-   - Try cancelling a booking
-   - Update your profile and change password
+1. **Login as an Operator** (`michael@expressbus.com` / `Password123`)
+2. **Test Operator Tools**:
+   - View the Operator Dashboard (real stats)
+   - Go to **My Buses** → Add a new bus
+   - Go to **Schedules** → Create a new departure using one of your buses
+   - Go to **Reservations** → See bookings made against your schedules
+   - Try cancelling a schedule (it should cancel related bookings too)
 
 2. **Run the Project**
    ```
