@@ -73,6 +73,8 @@ include __DIR__ . '/../includes/sidebar.php';
             <p class="text-muted">Complete system overview and control center</p>
         </div>
 
+        <?php display_flashes(); ?>
+
         <!-- Key Metrics -->
         <div class="dashboard-grid">
             <div class="stat-card">

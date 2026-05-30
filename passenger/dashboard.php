@@ -55,8 +55,7 @@ include __DIR__ . '/../includes/sidebar.php';
 <div class="main-content">
     <div class="container" style="max-width: 1100px;">
 
-        <?php if ($success): ?><div class="alert alert-success"><?= $success ?></div><?php endif; ?>
-        <?php if ($error): ?><div class="alert alert-danger"><?= $error ?></div><?php endif; ?>
+        <?php display_flashes(); ?>
 
         <div style="margin-bottom: 2rem;">
             <h1 style="margin-bottom: 0.25rem;">Welcome back, <?= htmlspecialchars($currentUser['name']) ?>!</h1>

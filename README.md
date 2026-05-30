@@ -27,10 +27,11 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 | 5     | **Operator Module**         | ✅ Complete | `phase-5-operator-module`   |
 | 6     | **Admin Module**            | ✅ Complete | `phase-6-admin-module`      |
 | 7     | **Advanced Features**       | ✅ Complete | `phase-7-advanced-features` |
+| 8     | **Final Optimization**      | ✅ Complete | `phase-8-production-ready`  |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 7 completed and committed to Git.
+> **Latest Phase**: Phase 8 completed and committed to Git.
 
 ---
 
@@ -169,6 +170,32 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 **Enhanced user experience features added:**
 
+---
+
+## Final Optimization (Phase 8 - Complete)
+
+**Production hardening applied:**
+
+### Security Improvements
+- `.htaccess` with security headers, directory protection, and compression
+- Session timeout (30 minutes of inactivity)
+- Improved secure session handling
+
+### Performance
+- Added recommended database indexes (`database/phase8_optimizations.sql`)
+- Better query patterns
+
+### Polish
+- Responsive improvements for tables and grids on mobile
+- Centralized flash message system (`display_flashes()`)
+- Cleaner error handling
+
+### Deployment Notes
+- The project is now considered **production-ready** for XAMPP / similar Apache + MySQL environments.
+- For real production (VPS/cloud), enable HTTPS, move sensitive config, and tighten CSP.
+
+---
+
 - **Visual Seat Selection** — Interactive seat map in booking flow (with booked seat detection)
 - **Booking Confirmation Ticket** — Beautiful ticket-style confirmation page after successful booking
 - **Notifications System** — In-app notifications with bell icon in header (mark as read)
@@ -248,15 +275,14 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 7)
+### Final Testing (Phase 8 - Production Ready)
 
-1. **Login as Passenger** and test new features:
-   - Go to **Search Buses** → Use price and bus type filters
-   - Book a trip → Enjoy the new **visual seat map** selection
-   - After booking, see the new **ticket-style confirmation page**
-   - Check the bell icon → View **Notifications**
+1. Test the full flow as **Passenger**, **Operator**, and **Admin**.
+2. Test on mobile (responsive tables, seat map, forms).
+3. Try the new seat selection and notification features.
+4. Review the new `.htaccess` and session timeout behavior.
 
-2. **Login as Admin** to see pagination in Users list.
+**Project is now considered production-ready.**
 
 2. **Run the Project**
    ```

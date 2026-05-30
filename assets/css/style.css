@@ -658,10 +658,22 @@ textarea.form-control {
     
     .main-content {
         margin-left: 0;
+        padding: 1rem;
     }
     
     .auth-card {
         padding: 1.75rem 1.5rem;
+    }
+
+    /* Make tables scrollable on mobile */
+    .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
     }
 }
 

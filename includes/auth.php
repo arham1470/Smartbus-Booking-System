@@ -26,7 +26,7 @@ require_once __DIR__ . '/../config/constants.php';
 // ============================================
 
 /**
- * Start a secure session with proper configuration
+ * Start a secure session with proper configuration + timeout
  */
 function start_secure_session() {
     if (session_status() === PHP_SESSION_ACTIVE) {
@@ -38,17 +38,28 @@ function start_secure_session() {
     ini_set('session.use_strict_mode', 1);
     ini_set('session.cookie_httponly', 1);
     ini_set('session.cookie_samesite', 'Lax');
-
-    // Only set secure cookie if HTTPS is available (comment out for local XAMPP)
-    // ini_set('session.cookie_secure', 1);
+    // ini_set('session.cookie_secure', 1); // Enable on HTTPS in production
 
     session_start();
 
-    // Regenerate session ID periodically to prevent fixation
+    // Session timeout (30 minutes of inactivity)
+    $timeout = 1800; // 30 minutes
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $timeout)) {
+        // Session has expired
+        session_unset();
+        session_destroy();
+        session_start();
+        $_SESSION['error'] = 'Your session has expired due to inactivity. Please log in again.';
+        header('Location: /SmartBus-Booking-System/login.php?expired=1');
+        exit;
+    }
+    $_SESSION['last_activity'] = time();
+
+    // Regenerate session ID periodically
     if (!isset($_SESSION['last_regeneration'])) {
         session_regenerate_id(true);
         $_SESSION['last_regeneration'] = time();
-    } elseif (time() - $_SESSION['last_regeneration'] > 300) { // 5 minutes
+    } elseif (time() - $_SESSION['last_regeneration'] > 300) {
         session_regenerate_id(true);
         $_SESSION['last_regeneration'] = time();
     }
@@ -296,6 +307,24 @@ function get_flash($type = null) {
  */
 function has_flash() {
     return !empty($_SESSION['flash']);
+}
+
+/**
+ * Render all flash messages as Bootstrap-style alerts
+ */
+function display_flashes() {
+    $flashes = get_flash();
+    if (!$flashes) return;
+
+    foreach ($flashes as $type => $message) {
+        $class = match($type) {
+            'success' => 'alert-success',
+            'error'   => 'alert-danger',
+            'warning' => 'alert-warning',
+            default   => 'alert-info'
+        };
+        echo '<div class="alert ' . $class . '">' . $message . '</div>';
+    }
 }
 
 // ============================================
