@@ -25,11 +25,11 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 | 3     | **Authentication System**   | ✅ Complete | `phase-3-authentication`    |
 | 4     | **Passenger Module**        | ✅ Complete | `phase-4-passenger-module`  |
 | 5     | **Operator Module**         | ✅ Complete | `phase-5-operator-module`   |
-| 6     | Admin Module                | ⏳ Pending   | -                           |
+| 6     | **Admin Module**            | ✅ Complete | `phase-6-admin-module`      |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 5 completed and committed to Git.
+> **Latest Phase**: Phase 6 completed and committed to Git.
 
 ---
 
@@ -156,6 +156,25 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 **Complete fleet and schedule management for bus operators:**
 
+---
+
+## Admin Module (Phase 6 - Complete)
+
+**Powerful system-wide administration tools:**
+
+### Features Delivered
+- **Admin Dashboard** — Full system KPIs, recent users, and recent bookings
+- **User Management** — Complete CRUD + status control (active/inactive/suspended)
+- **Operator Management** — Dedicated view of all operators
+- **Booking Management** — View and modify any booking in the system
+- **Reports** — Revenue by operator, popular routes, daily booking trends
+
+### Key Files
+- `admin/users.php`, `operators.php`, `bookings.php`, `reports.php`
+- `actions/admin_user_action.php`, `admin_booking_action.php`
+
+---
+
 ### Features Delivered
 - **Operator Dashboard** — Real KPIs (buses, upcoming trips, daily bookings, monthly revenue)
 - **Bus Management (CRUD)** — Add, edit, delete buses with validation
@@ -214,15 +233,15 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 5)
+### Current Testing (Phase 6)
 
-1. **Login as an Operator** (`michael@expressbus.com` / `Password123`)
-2. **Test Operator Tools**:
-   - View the Operator Dashboard (real stats)
-   - Go to **My Buses** → Add a new bus
-   - Go to **Schedules** → Create a new departure using one of your buses
-   - Go to **Reservations** → See bookings made against your schedules
-   - Try cancelling a schedule (it should cancel related bookings too)
+1. **Login as Admin** (`admin@smartbus.com` / `Password123`)
+2. **Test Full Admin Capabilities**:
+   - Explore the rich **Admin Dashboard** with live system-wide KPIs
+   - Go to **Users** → Edit users, change roles, suspend or activate accounts
+   - Go to **Bookings** → Modify any booking status or cancel bookings system-wide
+   - Go to **Reports** → Analyze revenue by operator and most popular routes
+   - Try to delete a user who has no active bookings
 
 2. **Run the Project**
    ```
