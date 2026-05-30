@@ -189,6 +189,9 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Responsive improvements for tables and grids on mobile
 - Centralized flash message system (`display_flashes()`)
 - Cleaner error handling
+- Custom 404 and 500 error pages added
+- Notifications now available for Operators (with bell icon)
+- Removed misleading "Remember Me" checkbox and dead "Forgot Password" link (replaced with demo message)
 
 ### Deployment Notes
 - The project is now considered **production-ready** for XAMPP / similar Apache + MySQL environments.

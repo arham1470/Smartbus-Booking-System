@@ -64,12 +64,12 @@
 </IfModule>
 
 # =============================================
-# 5. ERROR HANDLING (hide sensitive info in production)
+# 5. ERROR HANDLING (Custom Error Pages)
 # =============================================
-# In production, you may want to turn these off or point to custom error pages
-# ErrorDocument 403 /errors/403.php
-# ErrorDocument 404 /errors/404.php
-# ErrorDocument 500 /errors/500.php
+ErrorDocument 404 /SmartBus-Booking-System/errors/404.php
+ErrorDocument 500 /SmartBus-Booking-System/errors/500.php
+ErrorDocument 403 /SmartBus-Booking-System/errors/404.php   # Reuse 404 for forbidden for simplicity
+
 
 # =============================================
 # 6. OPTIONAL: Clean URLs (for future use)

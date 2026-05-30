@@ -50,11 +50,8 @@ include __DIR__ . '/includes/header.php';
                        placeholder="Enter your password" required>
             </div>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; font-size: 0.9rem;">
-                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                    <input type="checkbox" name="remember"> Remember me
-                </label>
-                <a href="#" style="font-size: 0.9rem;">Forgot password?</a>
+            <div style="margin-bottom: 1.25rem; font-size: 0.9rem; text-align: right;">
+                <a href="#" onclick="showForgotPasswordMessage(); return false;" style="font-size: 0.9rem;">Forgot password?</a>
             </div>
             
             <button type="submit" class="btn btn-primary btn-block btn-lg">
@@ -76,5 +73,11 @@ include __DIR__ . '/includes/header.php';
         </div>
     </div>
 </div>
+
+<script>
+function showForgotPasswordMessage() {
+    alert("Password reset is not available in this demo version.\n\nFor testing, please use one of the sample accounts:\n\n• admin@smartbus.com\n• michael@expressbus.com\n• james.wilson@email.com\n\nAll passwords: Password123");
+}
+</script>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

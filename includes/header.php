@@ -53,9 +53,14 @@ $role = $currentUser['role'] ?? null;
             <?php if ($currentUser): ?>
                 <!-- Logged in state -->
                 <li><a href="<?= get_role_dashboard($role) ?>">Dashboard</a></li>
-                <?php if ($role === 'passenger'): ?>
+                <?php if (in_array($role, ['passenger', 'operator'])): ?>
+                    <?php 
+                        $notifUrl = ($role === 'operator') 
+                            ? 'operator/notifications.php' 
+                            : 'passenger/notifications.php'; 
+                    ?>
                     <li>
-                        <a href="passenger/notifications.php" title="Notifications" style="position:relative;">
+                        <a href="<?= $notifUrl ?>" title="Notifications" style="position:relative;">
                             <i class="fas fa-bell"></i>
                         </a>
                     </li>
