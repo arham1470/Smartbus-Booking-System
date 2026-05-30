@@ -1,0 +1,56 @@
+# SmartBus Booking System - Git Ignore
+
+# Environment / secrets (never commit real credentials)
+.env
+.env.local
+config/local.php
+
+# Database dumps & backups
+*.sql
+!database/*.sql
+database/backups/
+*.bak
+
+# IDE / Editor
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & temp
+*.log
+logs/
+tmp/
+temp/
+cache/
+
+# Composer (future-proofing)
+vendor/
+composer.lock
+
+# Uploads / user content (keep structure but ignore files)
+assets/uploads/
+assets/images/uploads/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+!assets/images/.gitkeep
+
+# Session & runtime
+sessions/
+*.sess
+
+# PHPUnit / testing
+phpunit.xml
+.phpunit.result.cache
+
+# Misc
+*.zip
+*.tar.gz
