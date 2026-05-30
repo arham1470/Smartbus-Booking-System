@@ -18,18 +18,18 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 
 ## Current Development Status
 
-| Phase | Name                        | Status      | Git Tag                  |
-|-------|-----------------------------|-------------|--------------------------|
-| 1     | **Project Setup**           | ✅ Complete | `phase-1-project-setup`  |
-| 2     | Database Design             | ⏳ Pending   | -                        |
-| 3     | Authentication System       | ⏳ Pending   | -                        |
-| 4     | Passenger Module            | ⏳ Pending   | -                        |
-| 5     | Operator Module             | ⏳ Pending   | -                        |
-| 6     | Admin Module                | ⏳ Pending   | -                        |
-| 7     | Advanced Features           | ⏳ Pending   | -                        |
-| 8     | Final Optimization          | ⏳ Pending   | -                        |
+| Phase | Name                        | Status      | Git Tag                     |
+|-------|-----------------------------|-------------|-----------------------------|
+| 1     | **Project Setup**           | ✅ Complete | `phase-1-project-setup`     |
+| 2     | **Database Design**         | ✅ Complete | `phase-2-database-design`   |
+| 3     | Authentication System       | ⏳ Pending   | -                           |
+| 4     | Passenger Module            | ⏳ Pending   | -                           |
+| 5     | Operator Module             | ⏳ Pending   | -                           |
+| 6     | Admin Module                | ⏳ Pending   | -                           |
+| 7     | Advanced Features           | ⏳ Pending   | -                           |
+| 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 1 completed and committed to Git.
+> **Latest Phase**: Phase 2 completed and committed to Git.
 
 ---
 
@@ -85,8 +85,9 @@ SmartBus-Booking-System/
 ├── passenger/                # Future passenger module (Phase 4)
 ├── operator/                 # Future operator module (Phase 5)
 ├── admin/                    # Future admin module (Phase 6)
-└── database/                 # Future SQL scripts (Phase 2)
-    └── .gitkeep
+└── database/                 # Phase 2 Complete
+    ├── smartbus.sql            # Complete schema + sample data
+    └── ERD_AND_SETUP.md        # ERD + full setup guide
 ```
 
 ---
@@ -105,6 +106,40 @@ SmartBus-Booking-System/
 
 ---
 
+## Database (Phase 2 - Complete)
+
+**Location:** `database/smartbus.sql`
+
+### Tables Created (9 total)
+- `users` — All roles (passenger / operator / admin)
+- `operators` — Company profiles for bus operators
+- `buses` — Fleet management
+- `routes` — Origin → Destination paths
+- `schedules` — Actual departures (core search table)
+- `bookings` — Reservations
+- `booking_seats` — Individual seat assignments (ready for interactive maps)
+- `payments` — Payment records
+- `notifications` — In-app alerts
+
+### Sample Data Included
+- 1 Admin + 2 Operators + 5 Passengers
+- 5 Buses across 2 companies
+- 8 Routes + 10 Schedules (mix of future/past)
+- Multiple bookings with different statuses + seat assignments
+
+**All sample passwords:** `Password123`
+
+### Documentation
+Full ERD, relationship explanations, and detailed setup instructions are in:
+→ [database/ERD_AND_SETUP.md](database/ERD_AND_SETUP.md)
+
+### Quick Setup
+1. Start MySQL in XAMPP
+2. Create database `smartbus_db` in phpMyAdmin
+3. Import `database/smartbus.sql`
+
+---
+
 ## Getting Started (Current Phase)
 
 ### Prerequisites
@@ -112,11 +147,17 @@ SmartBus-Booking-System/
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 1)
+### Current Testing (Phase 2)
 
 1. **Start Services**
    - Open XAMPP Control Panel
-   - Start **Apache** (MySQL not required yet)
+   - Start **Apache** and **MySQL**
+
+2. **Import Database**
+   - Follow instructions in [database/ERD_AND_SETUP.md](database/ERD_AND_SETUP.md)
+   - Or quick version:
+     - Create `smartbus_db` in phpMyAdmin
+     - Import `database/smartbus.sql`
 
 2. **Run the Project**
    ```
