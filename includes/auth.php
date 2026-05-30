@@ -99,8 +99,10 @@ function is_logged_in() {
 /**
  * Get current logged-in user data from database
  * Returns null if not logged in
+ * 
+ * Note: Renamed from get_current_user() to avoid conflict with PHP's built-in function.
  */
-function get_current_user() {
+function get_logged_in_user() {
     if (!is_logged_in()) {
         return null;
     }
@@ -129,7 +131,7 @@ function get_current_user() {
         
         return $user;
     } catch (Exception $e) {
-        error_log("get_current_user error: " . $e->getMessage());
+        error_log("get_logged_in_user error: " . $e->getMessage());
         return null;
     }
 }
@@ -138,7 +140,7 @@ function get_current_user() {
  * Get current user's role
  */
 function get_current_role() {
-    $user = get_current_user();
+    $user = get_logged_in_user();
     return $user ? $user['role'] : null;
 }
 

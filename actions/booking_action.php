@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/auth.php';
 start_secure_session();
 require_role(ROLE_PASSENGER);
 
-$currentUser = get_current_user();
+$currentUser = get_logged_in_user();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ../passenger/search.php');

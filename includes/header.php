@@ -13,7 +13,7 @@ $isDashboard = $isDashboard ?? false;
 
 // Automatically get logged-in user if not explicitly passed
 if (!isset($currentUser)) {
-    $currentUser = get_current_user();
+    $currentUser = get_logged_in_user();
 }
 $role = $currentUser['role'] ?? null;
 ?>
