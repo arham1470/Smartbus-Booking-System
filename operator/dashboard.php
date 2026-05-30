@@ -77,76 +77,113 @@ include __DIR__ . '/../includes/sidebar.php';
 ?>
 
 <div class="main-content">
-    <div class="container" style="max-width: 1100px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
 
-        <?php if ($success): ?><div class="alert alert-success"><?= $success ?></div><?php endif; ?>
-        <?php if ($error): ?><div class="alert alert-danger"><?= $error ?></div><?php endif; ?>
+        <?php display_flashes(); ?>
 
-        <div style="margin-bottom: 2rem;">
-            <h1 style="margin-bottom: 0.25rem;">Operator Dashboard</h1>
-            <p class="text-muted">Welcome back, <strong><?= htmlspecialchars($operator['company_name']) ?></strong></p>
-        </div>
-
-        <div class="dashboard-grid">
-            <div class="stat-card">
-                <h3><i class="fas fa-bus"></i> Active Buses</h3>
-                <div class="value"><?= $active_buses ?></div>
+        <!-- Header -->
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1 style="margin-bottom: 0.25rem; font-size: 1.85rem;">Operator Dashboard</h1>
+                <p class="text-muted" style="margin:0;"><strong><?= htmlspecialchars($operator['company_name']) ?></strong></p>
             </div>
-            <div class="stat-card">
-                <h3><i class="fas fa-calendar-alt"></i> Upcoming Trips</h3>
-                <div class="value"><?= $upcoming_schedules ?></div>
-            </div>
-            <div class="stat-card">
-                <h3><i class="fas fa-ticket-alt"></i> Bookings Today</h3>
-                <div class="value"><?= $bookings_today ?></div>
-            </div>
-            <div class="stat-card">
-                <h3><i class="fas fa-dollar-sign"></i> Revenue (MTD)</h3>
-                <div class="value">$<?= number_format($revenue_mtd, 0) ?></div>
+            <div style="display: flex; gap: 8px;">
+                <a href="buses.php" class="btn btn-primary"><i class="fas fa-plus"></i> Add Bus</a>
+                <a href="schedules.php" class="btn btn-secondary"><i class="fas fa-plus"></i> New Schedule</a>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <strong>Quick Actions</strong>
+        <!-- Stats -->
+        <div class="dashboard-grid" style="margin-bottom: 2rem;">
+            <div class="stat-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h3 style="font-size:0.85rem; margin-bottom:4px;">Active Buses</h3>
+                        <div class="value" style="font-size:2rem;"><?= $active_buses ?></div>
+                    </div>
+                    <i class="fas fa-bus" style="font-size:2.4rem; color:#42A5F5; opacity:0.15;"></i>
+                </div>
             </div>
-            <div class="card-body" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <a href="buses.php" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Bus</a>
-                <a href="schedules.php" class="btn btn-secondary"><i class="fas fa-route"></i> Create Schedule</a>
-                <a href="reservations.php" class="btn btn-outline"><i class="fas fa-list"></i> View Reservations</a>
+            <div class="stat-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h3 style="font-size:0.85rem; margin-bottom:4px;">Upcoming Trips</h3>
+                        <div class="value" style="font-size:2rem;"><?= $upcoming_schedules ?></div>
+                    </div>
+                    <i class="fas fa-calendar-alt" style="font-size:2.4rem; color:#42A5F5; opacity:0.15;"></i>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h3 style="font-size:0.85rem; margin-bottom:4px;">Bookings Today</h3>
+                        <div class="value" style="font-size:2rem;"><?= $bookings_today ?></div>
+                    </div>
+                    <i class="fas fa-ticket-alt" style="font-size:2.4rem; color:#42A5F5; opacity:0.15;"></i>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <h3 style="font-size:0.85rem; margin-bottom:4px;">Revenue (MTD)</h3>
+                        <div class="value" style="font-size:1.7rem;">$<?= number_format($revenue_mtd, 0) ?></div>
+                    </div>
+                    <i class="fas fa-dollar-sign" style="font-size:2.4rem; color:#42A5F5; opacity:0.15;"></i>
+                </div>
             </div>
         </div>
 
-        <div class="card" style="margin-top: 1.5rem;">
-            <div class="card-header"><strong>Recent Bookings</strong></div>
-            <div class="card-body">
-                <?php if (empty($recent_bookings)): ?>
-                    <p class="text-muted">No recent bookings.</p>
-                <?php else: ?>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Reference</th>
-                                <th>Passenger</th>
-                                <th>Route</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($recent_bookings as $b): ?>
+        <!-- Quick Actions + Recent -->
+        <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 1.5rem;">
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header"><strong>Quick Actions</strong></div>
+                <div class="card-body" style="display: grid; gap: 10px;">
+                    <a href="buses.php" class="btn btn-primary btn-block" style="justify-content: flex-start;">
+                        <i class="fas fa-bus"></i> Manage Fleet
+                    </a>
+                    <a href="schedules.php" class="btn btn-secondary btn-block" style="justify-content: flex-start;">
+                        <i class="fas fa-calendar-plus"></i> Create New Schedule
+                    </a>
+                    <a href="reservations.php" class="btn btn-outline btn-block" style="justify-content: flex-start;">
+                        <i class="fas fa-users"></i> View Passenger Reservations
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Bookings -->
+            <div class="card">
+                <div class="card-header" style="display:flex; justify-content:space-between;">
+                    <strong>Recent Bookings</strong>
+                    <a href="reservations.php" class="btn btn-sm btn-outline">View All</a>
+                </div>
+                <div class="card-body" style="padding:0;">
+                    <?php if (empty($recent_bookings)): ?>
+                        <p class="text-muted" style="padding:1.25rem;">No recent bookings yet.</p>
+                    <?php else: ?>
+                        <table class="table" style="margin:0;">
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($b['booking_reference']) ?></td>
-                                    <td><?= htmlspecialchars($b['full_name']) ?></td>
-                                    <td><?= htmlspecialchars($b['origin_city']) ?> → <?= htmlspecialchars($b['destination_city']) ?></td>
-                                    <td>$<?= number_format($b['total_amount'], 2) ?></td>
-                                    <td><span class="badge badge-success"><?= ucfirst($b['status']) ?></span></td>
+                                    <th>Passenger</th>
+                                    <th>Route</th>
+                                    <th>Amount</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach (array_slice($recent_bookings, 0, 5) as $b): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($b['full_name']) ?></td>
+                                        <td style="font-size:0.9rem;"><?= htmlspecialchars($b['origin_city']) ?> → <?= htmlspecialchars($b['destination_city']) ?></td>
+                                        <td><strong>$<?= number_format($b['total_amount'], 0) ?></strong></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </div>
+
         </div>
 
     </div>

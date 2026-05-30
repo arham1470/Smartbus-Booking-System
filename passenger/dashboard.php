@@ -53,60 +53,115 @@ include __DIR__ . '/../includes/sidebar.php';
 ?>
 
 <div class="main-content">
-    <div class="container" style="max-width: 1100px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
 
         <?php display_flashes(); ?>
 
-        <div style="margin-bottom: 2rem;">
-            <h1 style="margin-bottom: 0.25rem;">Welcome back, <?= htmlspecialchars($currentUser['name']) ?>!</h1>
-            <p class="text-muted">Here's an overview of your travel activity.</p>
+        <!-- Welcome Header -->
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1 style="margin-bottom: 0.25rem; font-size: 1.85rem;">Welcome back, <?= htmlspecialchars($currentUser['name']) ?>!</h1>
+                <p class="text-muted" style="margin: 0;">Here's what's happening with your trips</p>
+            </div>
+            <a href="search.php" class="btn btn-primary">
+                <i class="fas fa-search"></i> Book New Trip
+            </a>
         </div>
 
-        <!-- Stats -->
-        <div class="dashboard-grid">
+        <!-- Stats Row -->
+        <div class="dashboard-grid" style="margin-bottom: 2rem;">
             <div class="stat-card">
-                <h3><i class="fas fa-ticket-alt"></i> Active Bookings</h3>
-                <div class="value"><?= $active_bookings ?></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="margin-bottom: 0.25rem; font-size: 0.9rem;">Active Bookings</h3>
+                        <div class="value" style="font-size: 2.1rem; line-height: 1;"><?= $active_bookings ?></div>
+                    </div>
+                    <i class="fas fa-ticket-alt" style="font-size: 2.2rem; color: #42A5F5; opacity: 0.2;"></i>
+                </div>
             </div>
+            
             <div class="stat-card">
-                <h3><i class="fas fa-history"></i> Total Trips</h3>
-                <div class="value"><?= $total_trips ?></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="margin-bottom: 0.25rem; font-size: 0.9rem;">Total Trips</h3>
+                        <div class="value" style="font-size: 2.1rem; line-height: 1;"><?= $total_trips ?></div>
+                    </div>
+                    <i class="fas fa-history" style="font-size: 2.2rem; color: #42A5F5; opacity: 0.2;"></i>
+                </div>
             </div>
+            
             <div class="stat-card">
-                <h3><i class="fas fa-search"></i> Quick Action</h3>
-                <a href="search.php" class="btn btn-primary btn-sm" style="margin-top: 0.5rem;">Search Buses</a>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="margin-bottom: 0.25rem; font-size: 0.9rem;">Next Trip</h3>
+                        <?php if (!empty($upcoming)): ?>
+                            <div style="font-size: 1rem; font-weight: 600; color: var(--primary-dark);">
+                                <?= date('M d', strtotime($upcoming[0]['departure_time'])) ?>
+                            </div>
+                        <?php else: ?>
+                            <div style="font-size: 0.95rem; color: var(--text-light);">No upcoming trips</div>
+                        <?php endif; ?>
+                    </div>
+                    <i class="fas fa-calendar-check" style="font-size: 2.2rem; color: #42A5F5; opacity: 0.2;"></i>
+                </div>
             </div>
         </div>
 
         <!-- Upcoming Trips -->
-        <div class="card">
-            <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
-                <strong>Upcoming Trips</strong>
-                <a href="bookings.php" class="btn btn-sm btn-outline">View All</a>
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>Upcoming Trips</strong>
+                    <?php if (!empty($upcoming)): ?>
+                        <span class="badge badge-success" style="margin-left: 8px;"><?= count($upcoming) ?></span>
+                    <?php endif; ?>
+                </div>
+                <a href="bookings.php" class="btn btn-sm btn-outline">View All Bookings</a>
             </div>
             <div class="card-body">
                 <?php if (empty($upcoming)): ?>
-                    <p class="text-muted">You have no upcoming trips. <a href="search.php">Book your next journey</a>.</p>
+                    <div style="text-align: center; padding: 1.5rem 0;">
+                        <p class="text-muted" style="margin-bottom: 1rem;">You don't have any upcoming trips yet.</p>
+                        <a href="search.php" class="btn btn-primary btn-sm">Find a Trip</a>
+                    </div>
                 <?php else: ?>
-                    <div style="display: grid; gap: 1rem;">
+                    <div style="display: grid; gap: 12px;">
                         <?php foreach ($upcoming as $trip): ?>
-                            <div style="border: 1px solid var(--border-light); border-radius: 8px; padding: 1rem; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="border: 1px solid var(--border-light); border-radius: 8px; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; background: #fff;">
                                 <div>
-                                    <strong><?= htmlspecialchars($trip['origin_city']) ?> → <?= htmlspecialchars($trip['destination_city']) ?></strong><br>
-                                    <small><?= date('M d, Y • h:i A', strtotime($trip['departure_time'])) ?></small>
+                                    <div style="font-weight: 600; font-size: 1.05rem;">
+                                        <?= htmlspecialchars($trip['origin_city']) ?> → <?= htmlspecialchars($trip['destination_city']) ?>
+                                    </div>
+                                    <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 2px;">
+                                        <?= date('D, M d • h:i A', strtotime($trip['departure_time'])) ?>
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="badge badge-success">Confirmed</span>
-                                    <a href="view_booking.php?id=<?= $trip['id'] ?>" class="btn btn-sm btn-outline" style="margin-left:0.5rem;">Details</a>
+                                <div style="text-align: right;">
+                                    <span class="badge badge-success">Confirmed</span><br>
+                                    <a href="view_booking.php?id=<?= $trip['id'] ?>" class="btn btn-sm btn-outline" style="margin-top: 6px; font-size: 0.8rem;">View Ticket</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
             </div>
-            <div class="card-footer">
-                <a href="search.php" class="btn btn-primary">Search for New Trips</a>
-                <a href="profile.php" class="btn btn-outline">Manage Profile</a>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <strong>Quick Actions</strong>
+            </div>
+            <div class="card-body" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <a href="search.php" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Search Buses
+                </a>
+                <a href="bookings.php" class="btn btn-outline">
+                    <i class="fas fa-list"></i> My Bookings
+                </a>
+                <a href="profile.php" class="btn btn-outline">
+                    <i class="fas fa-user"></i> Edit Profile
+                </a>
             </div>
         </div>
 

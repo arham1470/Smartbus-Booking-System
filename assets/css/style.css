@@ -65,6 +65,8 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Typography */
@@ -500,6 +502,15 @@ textarea.form-control {
 .main-content {
     margin-left: 260px;
     padding: 2rem;
+    min-height: calc(100vh - 140px); /* Ensure content area is tall enough */
+    padding-bottom: 4rem; /* Space for footer */
+}
+
+/* Dashboard Page Wrapper for better structure */
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* ============================================

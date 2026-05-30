@@ -5,7 +5,7 @@
  * Phase 1
  */
 ?>
-<footer style="background: #1F2937; color: #9CA3AF; padding: 2.5rem 0; margin-top: 4rem; font-size: 0.9rem;">
+<footer style="background: #1F2937; color: #9CA3AF; padding: 1.75rem 0; font-size: 0.85rem; margin-top: auto;">
     <div class="container">
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
             <!-- Brand -->
