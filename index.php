@@ -11,21 +11,21 @@ include __DIR__ . '/includes/header.php';
 
 <!-- HERO SECTION -->
 <section class="hero">
-    <div class="container">
+    <div class="hero-content">
         <h1>Travel Smarter.<br>Book Faster.</h1>
-        <p>Book bus tickets across the region in seconds. Real-time availability, secure payments, and instant confirmations.</p>
+        <p>Book bus tickets across the region in seconds.<br>Real-time availability, secure payments, and instant confirmations.</p>
         
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <div class="hero-buttons">
             <a href="register.php" class="btn btn-primary btn-lg">
                 <i class="fas fa-user-plus"></i> Create Free Account
             </a>
-            <a href="login.php" class="btn btn-secondary btn-lg">
+            <a href="login.php" class="btn btn-hero-secondary btn-lg">
                 <i class="fas fa-sign-in-alt"></i> Login to Book
             </a>
         </div>
         
-        <p style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.9;">
-            Already have an account? <a href="login.php" style="color: #90CAF9; text-decoration: underline;">Sign in here</a>
+        <p class="hero-login-link">
+            Already have an account? <a href="login.php">Sign in here</a>
         </p>
     </div>
 </section>
