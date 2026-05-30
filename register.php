@@ -2,10 +2,19 @@
 /**
  * SmartBus Booking System
  * Registration Page
- * Phase 1 - Styled shell (full backend + validation in Phase 3)
+ * Phase 3 - Fully functional with backend
  */
 
+require_once __DIR__ . '/includes/auth.php';
+start_secure_session();
+
 $pageTitle = "Create Account";
+
+// Display messages
+$error = $_SESSION['error'] ?? null;
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['error'], $_SESSION['old']);
+
 include __DIR__ . '/includes/header.php';
 ?>
 
@@ -18,28 +27,29 @@ include __DIR__ . '/includes/header.php';
         <h2>Create Your Account</h2>
         <p class="subtitle">Join SmartBus and start booking in seconds</p>
         
-        <!-- 
-            NOTE: Visual shell only in Phase 1.
-            Phase 3 will add server-side processing, password hashing,
-            email uniqueness check, and role selection logic.
-        -->
-        <form action="register.php" method="POST" autocomplete="off">
+        <?php if ($error): ?>
+            <div class="alert alert-danger"><?= $error ?></div>
+        <?php endif; ?>
+        
+        <form action="actions/register_action.php" method="POST" autocomplete="off">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            
             <div class="form-group">
                 <label class="form-label" for="full_name">Full Name</label>
                 <input type="text" id="full_name" name="full_name" class="form-control" 
-                       placeholder="John Doe" required>
+                       placeholder="John Doe" required value="<?= htmlspecialchars($old['full_name'] ?? '') ?>">
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div class="form-group">
                     <label class="form-label" for="phone">Phone Number</label>
                     <input type="tel" id="phone" name="phone" class="form-control" 
-                           placeholder="+1 555 123 4567" required>
+                           placeholder="+1 555 123 4567" required value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="email">Email</label>
                     <input type="email" id="email" name="email" class="form-control" 
-                           placeholder="you@example.com" required>
+                           placeholder="you@example.com" required value="<?= htmlspecialchars($old['email'] ?? '') ?>">
                 </div>
             </div>
             
@@ -56,12 +66,11 @@ include __DIR__ . '/includes/header.php';
                        placeholder="Repeat your password" required>
             </div>
             
-            <!-- Future role selection will appear here in Phase 3 -->
             <div class="form-group">
                 <label class="form-label" for="role">I am registering as</label>
                 <select id="role" name="role" class="form-select" required>
-                    <option value="passenger">Passenger (Book tickets)</option>
-                    <option value="operator">Bus Operator (Manage fleet)</option>
+                    <option value="passenger" <?= ($old['role'] ?? '') === 'passenger' ? 'selected' : '' ?>>Passenger (Book tickets)</option>
+                    <option value="operator" <?= ($old['role'] ?? '') === 'operator' ? 'selected' : '' ?>>Bus Operator (Manage fleet)</option>
                 </select>
             </div>
             

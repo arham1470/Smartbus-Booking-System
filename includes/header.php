@@ -2,23 +2,19 @@
 /**
  * SmartBus Booking System
  * Reusable Header Component
- * 
- * Phase 1: Professional public header + prepared for dashboard use
- * 
- * Usage:
- *   include __DIR__ . '/includes/header.php';
- * 
- * Future: Will support $pageTitle, $isDashboard, $user variables from session
+ * Phase 3 - Fully integrated with authentication
  */
 
-// Default page title if not set
-$pageTitle = $pageTitle ?? 'SmartBus Booking System';
+require_once __DIR__ . '/auth.php';
+start_secure_session();
 
-// Determine if we're in a dashboard context (will be used from Phase 4+)
+$pageTitle = $pageTitle ?? 'SmartBus Booking System';
 $isDashboard = $isDashboard ?? false;
 
-// Placeholder for future session user data
-$currentUser = $currentUser ?? null; // Will come from $_SESSION in later phases
+// Automatically get logged-in user if not explicitly passed
+if (!isset($currentUser)) {
+    $currentUser = get_current_user();
+}
 $role = $currentUser['role'] ?? null;
 ?>
 <!DOCTYPE html>
@@ -55,8 +51,8 @@ $role = $currentUser['role'] ?? null;
             <li><a href="login.php#search">Search Buses</a></li>
             
             <?php if ($currentUser): ?>
-                <!-- Logged in state (will activate in Phase 3+) -->
-                <li><a href="dashboard.php">Dashboard</a></li>
+                <!-- Logged in state -->
+                <li><a href="<?= get_role_dashboard($role) ?>">Dashboard</a></li>
                 <li><a href="logout.php" class="btn btn-outline">Logout</a></li>
             <?php else: ?>
                 <!-- Public state -->
@@ -91,7 +87,7 @@ $role = $currentUser['role'] ?? null;
             <div style="display: flex; align-items: center; gap: 1rem;">
                 <?php if ($currentUser): ?>
                     <span style="color: var(--text-light); font-size: 0.9rem;">
-                        Welcome, <strong><?= htmlspecialchars($currentUser['name'] ?? 'User') ?></strong>
+                        Welcome, <strong><?= htmlspecialchars($currentUser['name'] ?? $currentUser['full_name'] ?? 'User') ?></strong>
                     </span>
                     <a href="logout.php" class="btn btn-sm btn-danger">Logout</a>
                 <?php endif; ?>

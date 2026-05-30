@@ -2,10 +2,19 @@
 /**
  * SmartBus Booking System
  * Login Page
- * Phase 1 - Styled shell (backend logic in Phase 3)
+ * Phase 3 - Fully functional with backend
  */
 
+require_once __DIR__ . '/includes/auth.php';
+start_secure_session();
+
 $pageTitle = "Login";
+
+// Display messages from session
+$error = $_SESSION['error'] ?? null;
+$success = $_SESSION['success'] ?? null;
+unset($_SESSION['error'], $_SESSION['success']);
+
 include __DIR__ . '/includes/header.php';
 ?>
 
@@ -18,16 +27,21 @@ include __DIR__ . '/includes/header.php';
         <h2>Welcome Back</h2>
         <p class="subtitle">Sign in to your SmartBus account</p>
         
-        <!-- 
-            NOTE: This form is a visual shell in Phase 1.
-            In Phase 3, action will point to actions/login_action.php
-            and will include proper validation + CSRF protection.
-        -->
-        <form action="login.php" method="POST" autocomplete="on">
+        <?php if ($error): ?>
+            <div class="alert alert-danger"><?= $error ?></div>
+        <?php endif; ?>
+        
+        <?php if ($success): ?>
+            <div class="alert alert-success"><?= $success ?></div>
+        <?php endif; ?>
+        
+        <form action="actions/login_action.php" method="POST" autocomplete="on">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            
             <div class="form-group">
                 <label class="form-label" for="email">Email Address</label>
                 <input type="email" id="email" name="email" class="form-control" 
-                       placeholder="you@example.com" required value="">
+                       placeholder="you@example.com" required value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
             </div>
             
             <div class="form-group">
@@ -53,10 +67,12 @@ include __DIR__ . '/includes/header.php';
             <a href="register.php" style="font-weight: 600;">Create one now</a>
         </div>
         
-        <!-- Demo credentials hint (remove in production) -->
-        <div class="alert alert-info" style="margin-top: 1.75rem; font-size: 0.85rem; padding: 0.75rem 1rem;">
-            <strong>Phase 1 Demo:</strong> Form is styled and ready.<br>
-            Backend authentication will be added in Phase 3.
+        <div class="alert alert-info" style="margin-top: 1.5rem; font-size: 0.8rem;">
+            <strong>Test Accounts:</strong><br>
+            Admin: admin@smartbus.com<br>
+            Operator: michael@expressbus.com<br>
+            Passenger: james.wilson@email.com<br>
+            <em>All passwords: Password123</em>
         </div>
     </div>
 </div>

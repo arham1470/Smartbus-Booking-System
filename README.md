@@ -22,14 +22,14 @@ Built with PHP, MySQL, HTML5, CSS3, and JavaScript. Designed for passengers, bus
 |-------|-----------------------------|-------------|-----------------------------|
 | 1     | **Project Setup**           | ✅ Complete | `phase-1-project-setup`     |
 | 2     | **Database Design**         | ✅ Complete | `phase-2-database-design`   |
-| 3     | Authentication System       | ⏳ Pending   | -                           |
+| 3     | **Authentication System**   | ✅ Complete | `phase-3-authentication`    |
 | 4     | Passenger Module            | ⏳ Pending   | -                           |
 | 5     | Operator Module             | ⏳ Pending   | -                           |
 | 6     | Admin Module                | ⏳ Pending   | -                           |
 | 7     | Advanced Features           | ⏳ Pending   | -                           |
 | 8     | Final Optimization          | ⏳ Pending   | -                           |
 
-> **Latest Phase**: Phase 2 completed and committed to Git.
+> **Latest Phase**: Phase 3 completed and committed to Git.
 
 ---
 
@@ -140,6 +140,31 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 
 ---
 
+## Authentication (Phase 3 - Complete)
+
+**Fully functional login, registration, and role-based access control.**
+
+### Security Features Implemented
+- Secure password hashing (`password_hash` + `password_verify`)
+- CSRF token protection on all auth forms
+- Secure session management (regeneration, httponly, strict mode)
+- Role-based access guards (`require_role()`)
+- Automatic role-based redirects after login
+- Input validation and sanitization
+- Protection against session fixation
+
+### Test Accounts (after importing database)
+- **Admin**: `admin@smartbus.com` / `Password123`
+- **Operator**: `michael@expressbus.com` / `Password123`
+- **Passenger**: `james.wilson@email.com` / `Password123`
+
+### Key Files
+- `includes/auth.php` — Core authentication & authorization logic
+- `actions/login_action.php` & `register_action.php`
+- `config/constants.php` — Role constants and helpers
+
+---
+
 ## Getting Started (Current Phase)
 
 ### Prerequisites
@@ -147,17 +172,21 @@ Full ERD, relationship explanations, and detailed setup instructions are in:
 - Modern browser (Chrome, Firefox, Edge)
 - Git (already initialized)
 
-### Current Testing (Phase 2)
+### Current Testing (Phase 3)
 
 1. **Start Services**
    - Open XAMPP Control Panel
    - Start **Apache** and **MySQL**
 
-2. **Import Database**
+2. **Import Database** (if not done)
    - Follow instructions in [database/ERD_AND_SETUP.md](database/ERD_AND_SETUP.md)
-   - Or quick version:
-     - Create `smartbus_db` in phpMyAdmin
-     - Import `database/smartbus.sql`
+
+3. **Test Authentication**
+   - Visit the site and register a new account
+   - Login with sample accounts (see Authentication section above)
+   - Verify you are redirected to the correct dashboard based on role
+   - Test logout
+   - Try accessing a dashboard directly without logging in (should redirect)
 
 2. **Run the Project**
    ```
